@@ -4,7 +4,7 @@ const ctx = canvas.getContext ('2d');
 
 //size of my canvas
 canvas.width = 800;
-canvas.height = 800;
+canvas.height = 700;
 
 // ctx.fillRect( x axis , y axis , width , height ); 
 
@@ -58,14 +58,15 @@ function Circle (x, y, spX, spY, radius) {
 
     }
 }
-// four cirlces moving randomly throught the canvas 
+// four cirlces moving randomly throught the canvas - inside the canvas 
 let circleArray = [];
 for (let i = 0; i < 4; i++){
-    let x = Math.random() * canvas.width;
-    let y = Math.random() * canvas.height;
-    let spX = (Math.random() - 0.5) * 5; // X speed
-    let spY = (Math.random() - 0.5) * 5; // Y speed
     let radius = 50; 
+    let x = Math.random() * (canvas.width - radius * 2) + radius;
+    let y = Math.random() * (canvas.height - radius * 2) + radius;
+    let spX = (Math.random() - 0.5) * 10; // X speed
+    let spY = (Math.random() - 0.5) * 10; // Y speed
+    
     circleArray.push(new Circle (x,y,spX,spY,radius));
     
 }
