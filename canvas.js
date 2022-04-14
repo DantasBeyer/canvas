@@ -2,7 +2,7 @@
 const canvas = document.querySelector ('canvas');
 const ctx = canvas.getContext ('2d');
 
-//the size of my canvas
+//size of my canvas
 canvas.width = 800;
 canvas.height = 800;
 
@@ -25,29 +25,64 @@ casemiro = ctx.fillRect(350,300,50,50)
  ctx.strokeStyle = 'white';
  ctx.stroke(); */
 
-//Animation 1 Circle
 
+
+
+//Animation 1 Circle
+function Circle (x, y, spX, spY, radius) {
+    this.x = x;
+    this.y = y;
+    this.spX = spX;
+    this.spY = spY;
+    this.radius = radius;
+    
+
+    this.draw = function(){
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+    }
+// collision border
+    this.updade = function(){
+        if( this.x + this.radius > canvas.width || this.x - this.radius < 0){
+            this.spX = -this.spX;
+        }
+        if( this.y + this.radius > canvas.height || this.y - this.radius < 0){
+            this.spY = -this.spY;
+        }    
+        this.x += this.spX;
+        this.y += this.spY;
+
+    this.draw();
+
+    }
+}
+// four cirlces moving randomly throught the canvas 
+let circleArray = [];
+for (let i = 0; i < 4; i++){
+    let x = Math.random() * canvas.width;
+    let y = Math.random() * canvas.height;
+    let spX = (Math.random() - 0.5) * 5; // X speed
+    let spY = (Math.random() - 0.5) * 5; // Y speed
+    let radius = 50; 
+    circleArray.push(new Circle (x,y,spX,spY,radius));
+    
+}
+
+ console.log(circleArray); 
+
+    
 
 // loop throught the animate function 
-let x = 200;
-let y = 200;
-let sx = 10; // X speed
-let sy = 10; // Y speed
-let radius = 30;
 function animate () {
     requestAnimationFrame(animate);
-
     ctx.clearRect(0,0,innerWidth, innerHeight);
-    ctx.beginPath();
-    ctx.arc ( x, 100, radius,0, Math.PI * 2, false);
-    ctx.strokeStyle = 'White';
-    ctx.stroke();
 
-    if ( x + radius > innerWidth || x - radius < 0 ){
-        sx = -sx;
+    for (let i = 0; i < circleArray.length; i++) {
+        circleArray[i].updade();
     }
-    
-    x += sx;
+
 }
 
 animate();
